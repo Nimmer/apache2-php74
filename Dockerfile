@@ -5,7 +5,7 @@ MAINTAINER Matus Demko <tobysichcelvediet@gmail.sk>
 RUN apt update && \
     apt -y upgrade
 
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y bash zsh git grep sed curl \
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y bash zsh git grep sed curl tee \
  wget tar gzip postfix ssh vim nano tmux htop net-tools iputils-ping
 
 CMD ["/bin/bash"]
@@ -15,7 +15,7 @@ COPY run.sh /run.sh
 
 RUN apt -y install lsb-release apt-transport-https ca-certificates
 RUN wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
-RUN echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/php.list
+RUN echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/php.list
 RUN apt update
 
 RUN apt update && \
