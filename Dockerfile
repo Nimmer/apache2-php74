@@ -31,7 +31,6 @@ RUN apt update && \
     php7.4-bcmath \
     php7.4-cli \
     php7.4-xml \
-    php7.4-xls \
     php7.4-fpm \
     php7.4-curl \
     php7.4-intl \
