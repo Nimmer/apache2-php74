@@ -13,6 +13,10 @@ CMD ["/bin/bash"]
 # Copy and add files first (to make dockerhub autobuild working: https://forums.docker.com/t/automated-docker-build-fails/22831/14)
 COPY run.sh /run.sh
 
+RUN apt -y install lsb-release apt-transport-https ca-certificates
+RUN wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
+RUN echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/php.list
+RUN apt update
 
 RUN apt update && \
     apt -y install \
