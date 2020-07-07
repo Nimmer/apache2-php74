@@ -1,11 +1,12 @@
 FROM debian:stable
-MAINTAINER Gabriel Takács <gtakacs@gtakacs.sk>
+MAINTAINER Matus Demko <tobysichcelvediet@gmail.sk>
 
 # Install common utilities
 RUN apt update && \
     apt -y upgrade
 
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y bash zsh git grep sed curl wget tar gzip postfix ssh vim
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y bash zsh git grep sed curl \
+ wget tar gzip postfix ssh vim nano tmux htop net-tools iputils-ping
 
 CMD ["/bin/bash"]
 
@@ -17,15 +18,23 @@ RUN apt update && \
     apt -y install \
     apache2 \
     supervisor \
-    php7.3 \
-    php7.3-pgsql \
-    php7.3-mysql \
-    php7.3-gd \
-    php7.3-curl \
-    php7.3-json \
-    php7.3-dev \
-    php7.3-mbstring \
-    php7.3-zip \
+    php7.4 \
+    php7.4-pgsql \
+    php7.4-mysql \
+    php7.4-gd \
+    php7.4-tidy \
+    php7.4-odbc \
+    php7.4-bcmath \
+    php7.4-cli \
+    php7.4-xml \
+    php7.4-xls \
+    php7.4-fpm \
+    php7.4-curl \
+    php7.4-intl \
+    php7.4-json \
+    php7.4-dev \
+    php7.4-mbstring \
+    php7.4-zip \
     php-memcache \
     php-memcached \
     php-imagick \
@@ -45,7 +54,7 @@ COPY ./php/php.ini /etc/php/apache2/php.ini
 # Install composer
 ENV COMPOSER_HOME=/composer
 RUN mkdir /composer \
-    && curl -sS https://getcomposer.org/download/1.6.3/composer.phar > composer.phar
+    && curl -sS https://getcomposer.org/download/1.10.8/composer.phar > composer.phar
 
 RUN mkdir -p /opt/composer \
     && mv composer.phar /usr/local/bin/composer \
