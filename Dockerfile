@@ -5,7 +5,7 @@ MAINTAINER Matus Demko <tobysichcelvediet@gmail.sk>
 RUN apt update && \
     apt -y upgrade
 
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y bash zsh git grep sed curl tee \
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y bash zsh git grep sed curl \
  wget tar gzip postfix ssh vim nano tmux htop net-tools iputils-ping
 
 CMD ["/bin/bash"]
