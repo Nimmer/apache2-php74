@@ -21,6 +21,7 @@ RUN apt update
 RUN apt update && \
     apt -y install \
     apache2 \
+    libapache2-mod-php7.4 \
     supervisor \
     php7.4 \
     php7.4-pgsql \
