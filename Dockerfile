@@ -50,7 +50,8 @@ RUN apt update && \
 RUN apt-get -y install nodejs npm
 RUN npm install -g \
     gulp \
-    bower
+    bower \
+    yarn
 
 # php-fpm configuration
 COPY ./php/php.ini /etc/php/apache2/php.ini
