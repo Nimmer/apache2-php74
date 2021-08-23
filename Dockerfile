@@ -42,6 +42,7 @@ RUN apt update && \
     php-memcached \
     php-imagick \
     memcached \
+    beanstalkd \
     imagemagick \
     postfix
 
