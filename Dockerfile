@@ -1,4 +1,4 @@
-FROM debian:stable
+FROM debian:stretch
 MAINTAINER Matus Demko <tobysichcelvediet@gmail.sk>
 
 # Install common utilities
@@ -48,7 +48,7 @@ RUN apt update && \
     postfix
 
 # Install NPM & NPM modules (gulp, bower)
-RUN apt-get -y install nodejs npm
+RUN apt -y install nodejs npm
 RUN npm install -g \
     gulp \
     bower \
