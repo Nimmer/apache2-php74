@@ -39,9 +39,9 @@ RUN apt update && \
     php7.4-dev \
     php7.4-mbstring \
     php7.4-zip \
-    php-memcache \
-    php-memcached \
-    php-imagick \
+    php7.4-memcache \
+    php7.4-memcached \
+    php7.4-imagick \
     memcached \
     beanstalkd \
     imagemagick \
