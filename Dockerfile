@@ -1,4 +1,4 @@
-FROM debian:stretch
+FROM debian:bullseye
 MAINTAINER Matus Demko <tobysichcelvediet@gmail.sk>
 
 # Install common utilities
@@ -12,12 +12,15 @@ CMD ["/bin/bash"]
 
 # Copy and add files first (to make dockerhub autobuild working: https://forums.docker.com/t/automated-docker-build-fails/22831/14)
 COPY run.sh /run.sh
+RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
 RUN apt -y install lsb-release apt-transport-https ca-certificates
 RUN wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
 RUN echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/php.list
 RUN curl -sL https://deb.nodesource.com/setup_current.x | bash -
 RUN apt update
+
+
 
 RUN apt update && \
     apt -y install \
@@ -45,10 +48,19 @@ RUN apt update && \
     memcached \
     beanstalkd \
     imagemagick \
-    postfix
+    postfix \
+    libapache2-mod-php7.4
 
 # Install NPM & NPM modules (gulp, bower)
 RUN apt -y install nodejs
+
+RUN wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+ENV NVM_DIR /usr/local/nvm
+
+
+RUN source ~/.bashrc \
+    && nvm install Erbium \
+
 RUN npm install -g \
     gulp \
     bower \
@@ -60,7 +72,7 @@ COPY ./php/php.ini /etc/php/apache2/php.ini
 # Install composer
 ENV COMPOSER_HOME=/composer
 RUN mkdir /composer \
-    && curl -sS https://getcomposer.org/download/1.10.8/composer.phar > composer.phar
+    && curl -sS https://getcomposer.org/download/2.5.1/composer.phar > composer.phar
 
 RUN mkdir -p /opt/composer \
     && mv composer.phar /usr/local/bin/composer \
@@ -82,7 +94,7 @@ RUN mkdir -p /opt/composer \
 COPY supervisor/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 RUN adduser --shell /sbin/nologin --disabled-login www-data www-data
-RUN chown -R www-data:www-data /run/apache2/
+
 
 # Copy Apache2 config
 RUN rm /etc/apache2/sites-available/000-default.conf
@@ -96,7 +108,6 @@ RUN chmod a+x /run.sh
 
 RUN chmod a+rw /var/log/apache2
 
-RUN composer global require hirak/prestissimo
 
 #RUN apk --no-cache --update add icu icu-libs icu-dev
 #RUN docker-php-ext-install intl
