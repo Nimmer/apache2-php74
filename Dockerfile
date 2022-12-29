@@ -14,9 +14,9 @@ CMD ["/bin/bash"]
 COPY run.sh /run.sh
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
-RUN apt -y install lsb-release apt-transport-https ca-certificates
-RUN wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
-RUN echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/php.list
+RUN apt -y install apt-transport-https lsb-release ca-certificates curl
+RUN curl -sSLo /usr/share/keyrings/deb.sury.org-php.gpg https://packages.sury.org/php/apt.gpg
+RUN sh -c 'echo "deb [signed-by=/usr/share/keyrings/deb.sury.org-php.gpg] https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
 RUN curl -sL https://deb.nodesource.com/setup_current.x | bash -
 RUN apt update
 
@@ -59,7 +59,7 @@ ENV NVM_DIR /usr/local/nvm
 
 
 RUN source ~/.bashrc \
-    && nvm install Erbium \
+    && nvm install Erbium
 
 RUN npm install -g \
     gulp \
